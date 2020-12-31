@@ -1,6 +1,7 @@
 import unittest
+import unittest.mock
 
-from accounts import AccountFile
+import accounts as acc
 
 
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
@@ -11,12 +12,12 @@ class TestAccountMerchants(unittest.TestCase):
 
     def test_read_accounts(self):
         """Load the list of accounts."""
-        accounts = AccountFile(YAML_TESTFILE)
+        accounts = acc.AccountFile(YAML_TESTFILE)
         print(accounts.raw)
 
     def test_read_merchant_accounts(self):
         """Determine the merchants for each account."""
-        accounts = AccountFile(YAML_TESTFILE)
+        accounts = acc.AccountFile(YAML_TESTFILE)
 
         print("Accounts")
         for account, merchants in accounts.account_merchants.items():
@@ -28,7 +29,7 @@ class TestAccountMerchants(unittest.TestCase):
             print(merchant, ' => ', account)
 
     def test_merchant_matcher(self):
-        accounts = AccountFile(YAML_TESTFILE)
+        accounts = acc.AccountFile(YAML_TESTFILE)
         print(accounts.match('Aldi 104'))
         self.assertEqual("Expenses:Food:Groceries", accounts.match('Aldi 104'))
         self.assertIsNone(accounts.match('ALDI 104'))   # ensure case sensitive
@@ -37,6 +38,28 @@ class TestAccountMerchants(unittest.TestCase):
 
     def test_accounts_list(self):
         """Spit out all the accounts"""
-        accounts = AccountFile(YAML_TESTFILE)
+        accounts = acc.AccountFile(YAML_TESTFILE)
         for account in sorted(accounts.account_merchants.keys()):
             print('2016-06-25 open %s' % account)
+
+
+class TestModuleRoutines(unittest.TestCase):
+    """Test top level routines."""
+
+    pubs = {'Pubs': ['Ivanhoe','4.*']}
+
+    def test_unknowns(self):
+        """Test the unknowns routine.  Should find unknowns."""
+        with unittest.mock.patch.dict(acc.account_file.raw, self.pubs):
+
+            # We know the pines.
+            unknowns = acc.unknowns(["4 Pines"])
+            assert unknowns == []
+
+            # We don't know bobs.
+            unknowns = acc.unknowns(["Bobs bar"])
+            assert unknowns != []
+
+            # Put the most frequently occuring unknowns first.
+            unknowns = acc.unknowns(["Bobs bar", "Bobs bar", "Sallys", "Ivanhoe"])
+            assert unknowns == ["Bobs bar", "Sallys"]
