@@ -53,13 +53,12 @@ class TestModuleRoutines(unittest.TestCase):
         with unittest.mock.patch.dict(acc.account_file.raw, self.pubs):
 
             # We know the pines.
-            unknowns = acc.unknowns(["4 Pines"])
-            assert unknowns == []
+            assert acc.unknowns(["4 Pines"]) == []
 
             # We don't know bobs.
-            unknowns = acc.unknowns(["Bobs bar"])
-            assert unknowns != []
+            assert acc.unknowns(["Bobs bar"]) != []
 
             # Put the most frequently occuring unknowns first.
-            unknowns = acc.unknowns(["Bobs bar", "Bobs bar", "Sallys", "Ivanhoe"])
-            assert unknowns == ["Bobs bar", "Sallys"]
+            assert acc.unknowns([
+                "Bobs bar", "Bobs bar", "Sallys", "Ivanhoe"
+            ]) == ["Bobs bar", "Sallys"]
