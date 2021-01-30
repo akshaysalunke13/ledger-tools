@@ -11,14 +11,32 @@ RAW_FILE = '../john-fiona/raw/upbank/latest.json'
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
 
 
-def test_unknowns():
+def test_find_unknown_merchants():
     """From the download, list the most unknown transactions.
 
     * load the download file and the accounts yaml
     * list the transactions without an account in frequency order.
     """
-    # TODO
-    pass
+    print()
+    accounts = acc.AccountFile(YAML_TESTFILE)
+    raw_data = json.load(open('test_data/up_transactions.json'))
+
+    unknowns, knowns = dict(), set()
+    for item in raw_data['data']:
+        description = f"{item['attributes']['description']} \"{item['attributes']['rawText']}\""
+        account = accounts.match(description)
+        if account is None:
+            unknowns.setdefault(description, list()).append(item)
+        else:
+            knowns.add(f"{description} -> {account}")
+
+    unknowns_list = sorted(unknowns.keys(), key=lambda key: len(unknowns[key]), reverse=True)
+    for description in unknowns_list:
+        print(f"{len(unknowns[description])} {description}")
+
+    print()
+    for known in knowns:
+        print(known)
 
 
 def test_download_transactions():
@@ -37,12 +55,6 @@ def test_download_transactions():
 
 
 def test_generate_beans():
-    """From the download, generate a beancount file for Upbank."""
-    # TODO
-    pass
-
-
-def test_convert_file():
     """Convert the given file to beancount transactions, using the accounts yaml.
     """
     accounts = acc.AccountFile(YAML_TESTFILE)
@@ -52,35 +64,17 @@ def test_convert_file():
     sys.stdout.write("\n")
     for trans in transactions:
         date_str = trans['attributes']['createdAt'][:10]
-        description = f"{trans['attributes']['rawText']} ({trans['attributes']['description']})"
+        description = f"{trans['attributes']['rawText']} [{trans['attributes']['description']}]"
         value = trans['attributes']['amount']['value']
-        account = accounts.match(description)
-        if account is None:
-            account = "Expenses:TODO"
-        sys.stdout.write(f"{date_str} * \"{description}\"\n")
-        sys.stdout.write(f"    Assets:Bank:Upbank\n")
-        sys.stdout.write("    %-46s %10.2f AUD\n" % (account, float(value)))
-        sys.stdout.write("\n")
+        account = accounts.match(description) or "Expenses:TODO"
+
+        entry = f"{date_str} * \"{description}\"\n"
+        entry += "    Assets:Bank:Upbank\n"
+        entry += "    %-46s %10.2f AUD\n\n" % (account, float(value))
+
+        sys.stdout.write(entry)
+        fh.write(entry)
     fh.close()
-
-
-def test_transaction_data():
-    """Play with transaction data."""
-    print()
-    accounts = acc.AccountFile(YAML_TESTFILE)
-    raw_data = json.load(open('test_data/up_transactions.json'))
-    data = raw_data['data']
-    for item in data:
-        date_str = item['attributes']['createdAt'][:10]
-        description = f"{item['attributes']['rawText']} ({item['attributes']['description']})"
-        value = item['attributes']['amount']['value']
-        account = accounts.match(description)
-        if account is None:
-            account = "Expenses:TODO"
-
-        print(f"{date_str} * \"{description}\"")
-        print(f"    Assets:Bank:Upbank")
-        print("    %-46s %10.2f AUD\n" % (account, float(value)))
 
 
 def test_ping():
@@ -117,31 +111,6 @@ def test_categories_processing(mock_get):
     for category in top_level:
         for child in category['relationships']['children']['data']:
             pprint.pp(f"{category['id']} -> {child['id']} {categories[child['id']]['relationships']['children']['data']}")
-
-
-def test_find_unknown_merchants():
-    """Print a list of merchants not matched to accounts"""
-    print()
-    accounts = acc.AccountFile(YAML_TESTFILE)
-    raw_data = json.load(open('test_data/up_transactions.json'))
-
-    unknowns = set()
-    for item in raw_data['data']:
-        description = f"{item['attributes']['description']} \"{item['attributes']['rawText']}\""
-        account = accounts.match(description)
-        if account is None:
-            unknowns.add(description)
-        else:
-            print(f"Known: {description} -> {account}")
-
-    for description in unknowns:
-        print(f"Unknown: {description}")
-
-    # TODO: sort unknowns by frequency.
-    #     # print them in order of most to least frequently occuring
-    #     for records in sorted(unknowns.values(), key=lambda x: len(x), reverse=True):
-    #         for record in records:
-    #             print(record)
 
 
 foo = """

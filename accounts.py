@@ -43,10 +43,10 @@ class AccountFile:
                 result[str(merchant)] = account
         return result
 
-    def match(self, merchant):
-        """Return the account matching the merchant pattern"""
+    def match(self, description):
+        """Return the account matching the description"""
         for pattern in self.merchant_accounts.keys():
-            if re.fullmatch(pattern, merchant, re.IGNORECASE):
+            if re.match(pattern, description, re.IGNORECASE):
                 return self.merchant_accounts[pattern]
         return None
 
@@ -54,11 +54,14 @@ class AccountFile:
 account_file = AccountFile(ACCOUNTS_YAML)
 
 
-def is_known(description: str) -> bool:
+def is_known(description: str) -> str:
     """True if the description maps to an Account.
 
     Args:
         description: a merchant name or transaction description.
+
+    Returns:
+        The account string that matched.
     """
     return account_file.match(description)
 
