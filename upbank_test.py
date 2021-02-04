@@ -7,7 +7,7 @@ import sys
 import accounts as acc
 import upbank
 
-RAW_FILE = '../john-fiona/raw/upbank/latest.json'
+RAW_FILE = '../john-fiona/raw/upbank/2020-08-trans.json'
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
 
 
@@ -19,23 +19,23 @@ def test_find_unknown_merchants():
     """
     print()
     accounts = acc.AccountFile(YAML_TESTFILE)
-    raw_data = json.load(open('test_data/up_transactions.json'))
+    raw_data = json.load(open(RAW_FILE))
 
     unknowns, knowns = dict(), set()
-    for item in raw_data['data']:
+    for item in raw_data:
         description = f"{item['attributes']['description']} \"{item['attributes']['rawText']}\""
         account = accounts.match(description)
         if account is None:
             unknowns.setdefault(description, list()).append(item)
         else:
-            knowns.add(f"{description} -> {account}")
+            knowns.add("%-30s -> %s" % (account, description))
 
     unknowns_list = sorted(unknowns.keys(), key=lambda key: len(unknowns[key]), reverse=True)
     for description in unknowns_list:
         print(f"{len(unknowns[description])} {description}")
 
     print()
-    for known in knowns:
+    for known in sorted(knowns):
         print(known)
 
 
@@ -45,13 +45,21 @@ def test_download_transactions():
       * connect to the Upbank API.
       * save the period of transactions to file.
     """
-    since_day = datetime.date(year=2021, month=1, day=1)
-    transactions = upbank.transactions(since=since_day)
-    settled = [trans for trans in transactions
-               if trans['attributes']['status'] == 'SETTLED']
+    year, month = 2020, 8
+    local_tz = datetime.datetime.utcnow().astimezone().tzinfo
+    since = datetime.datetime(year=year, month=month, day=1, tzinfo=local_tz)
+    until = datetime.datetime(year=year, month=month+1, day=1, tzinfo=local_tz)
+    transactions = upbank.transactions(since, until, upbank.SETTLED)
     with open(RAW_FILE, "w") as fh:
-        json.dump(settled, fh, indent=3)
-    print(settled)
+        json.dump(transactions, fh, indent=3)
+    print()
+    for transaction in transactions:
+        print("%-32s %8s %s %s" % (
+            transaction['attributes']['rawText'],
+            transaction['attributes']['amount']['value'],
+            transaction['attributes']['status'],
+            transaction['attributes']['createdAt'],
+        ))
 
 
 def test_generate_beans():
@@ -68,6 +76,7 @@ def test_generate_beans():
         value = trans['attributes']['amount']['value']
         account = accounts.match(description) or "Expenses:TODO"
 
+    # TODO: change the sign/side, use the currency field.
         entry = f"{date_str} * \"{description}\"\n"
         entry += "    Assets:Bank:Upbank\n"
         entry += "    %-46s %10.2f AUD\n\n" % (account, float(value))

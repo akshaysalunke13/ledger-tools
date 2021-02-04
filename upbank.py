@@ -16,6 +16,10 @@ TOKEN = os.environ['UPTOKEN']
 # Maximum number of transactions upbank return per 'page'.
 PAGE_SIZE = 10
 
+# Constants
+HELD = "HELD"
+SETTLED = "SETTLED"
+
 
 class LocalTZ(datetime.tzinfo):
     """Your time zone with an arbitrary, constant offset."""
@@ -23,11 +27,15 @@ class LocalTZ(datetime.tzinfo):
         return datetime.timedelta(hours=+11, minutes=0)
 
 
-def transactions(since: datetime.date) -> list:
+def transactions(since: datetime.datetime,
+                 until: datetime.date = None,
+                 status: str = None) -> list:
     """Fetch a list of transactions.
 
     Args:
-        since: str: start date from which to fetch transactions.
+        since: tzaware datetime to start from
+        until: tzaware datetime to stop at; or None for all.
+        status: "HELD" or "SETTLED"
 
     Returns:
         list of "SETTLED" transactions in dict format.
@@ -36,13 +44,11 @@ def transactions(since: datetime.date) -> list:
 
     # Upbank only return PAGE_SIZE transactions per request, so we need to
     params.update({'page[size]': PAGE_SIZE})
-
-    # We only want transactions since the since date.
-    sincetime = datetime.datetime(year=since.year,
-                                  month=since.month,
-                                  day=since.day,
-                                  tzinfo=LocalTZ())
-    params.update({'filter[since]': sincetime})
+    params.update({'filter[since]': since})
+    if until is not None:
+        params.update({'filter[until]': until})
+    if status is not None:
+        params.update({'filter[status]': status})
     response = get("/transactions", params=params)
     return response
 
