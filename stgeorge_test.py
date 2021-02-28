@@ -4,7 +4,7 @@ import unittest
 import accounts as acc
 import stgeorge
 
-CSV_TESTFILE = '/home/john/projects/money/john-fiona/raw/stgeorge/trans300121.csv'
+CSV_TESTFILE = '/home/john/projects/money/john-fiona/raw/stgeorge/2021-02-11-jointfreedom.csv'
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
 
 BANK_ACCOUNT = 'Assets:Bank:Joint-CompleteFreedom'

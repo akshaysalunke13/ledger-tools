@@ -7,8 +7,32 @@ import sys
 import accounts as acc
 import upbank
 
-RAW_FILE = '../john-fiona/raw/upbank/2020-08-trans.json'
+YEAR, MONTH = 2020, 12
+
+RAW_FILE = f'../john-fiona/raw/upbank/{YEAR}-{MONTH}-trans.json'
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
+
+
+def test_download_transactions():
+    """Download a sequence of transactions.
+
+      * connect to the Upbank API.
+      * save the period of transactions to file.
+    """
+    local_tz = datetime.datetime.utcnow().astimezone().tzinfo
+    since = datetime.datetime(year=YEAR, month=MONTH, day=1, tzinfo=local_tz)
+    until = datetime.datetime(year=YEAR, month=MONTH+1, day=1, tzinfo=local_tz)
+    transactions = upbank.transactions(since, until, upbank.SETTLED)
+    with open(RAW_FILE, "w") as fh:
+        json.dump(transactions, fh, indent=3)
+    print()
+    for transaction in transactions:
+        print("%-32s %8s %s %s" % (
+            transaction['attributes']['rawText'],
+            transaction['attributes']['amount']['value'],
+            transaction['attributes']['status'],
+            transaction['attributes']['createdAt'],
+        ))
 
 
 def test_find_unknown_merchants():
@@ -35,33 +59,12 @@ def test_find_unknown_merchants():
     unknowns_list = sorted(unknowns.keys(), key=lambda key: len(unknowns[key]), reverse=True)
     for description in unknowns_list:
         print(f"{len(unknowns[description])} {description}")
+        values = [trans['attributes']['amount']['value'] for trans in unknowns[description]]
+        print(", ".join(values))
 
     print()
     for known in sorted(knowns):
         print(known)
-
-
-def test_download_transactions():
-    """Download a sequence of transactions.
-
-      * connect to the Upbank API.
-      * save the period of transactions to file.
-    """
-    year, month = 2020, 8
-    local_tz = datetime.datetime.utcnow().astimezone().tzinfo
-    since = datetime.datetime(year=year, month=month, day=1, tzinfo=local_tz)
-    until = datetime.datetime(year=year, month=month+1, day=1, tzinfo=local_tz)
-    transactions = upbank.transactions(since, until, upbank.SETTLED)
-    with open(RAW_FILE, "w") as fh:
-        json.dump(transactions, fh, indent=3)
-    print()
-    for transaction in transactions:
-        print("%-32s %8s %s %s" % (
-            transaction['attributes']['rawText'],
-            transaction['attributes']['amount']['value'],
-            transaction['attributes']['status'],
-            transaction['attributes']['createdAt'],
-        ))
 
 
 def test_generate_beans():
