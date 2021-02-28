@@ -7,9 +7,9 @@ import sys
 import accounts as acc
 import upbank
 
-YEAR, MONTH = 2020, 12
+YEAR, MONTH = 2021, 1
 
-RAW_FILE = f'../john-fiona/raw/upbank/{YEAR}-{MONTH}-trans.json'
+RAW_FILE = '../john-fiona/raw/upbank/%i-%02.i-trans.json' % (YEAR, MONTH)
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
 
 
@@ -54,7 +54,7 @@ def test_find_unknown_merchants():
         if account is None:
             unknowns.setdefault(full_description, list()).append(item)
         else:
-            knowns.add("%-30s -> %s" % (account, full_description))
+            knowns.add("%-50s -> %s" % (full_description, account))
 
     unknowns_list = sorted(unknowns.keys(), key=lambda key: len(unknowns[key]), reverse=True)
     for description in unknowns_list:
