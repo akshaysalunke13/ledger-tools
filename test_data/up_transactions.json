@@ -1,5 +1,4 @@
-{
-  "data": [
+[
     {
       "type": "transactions",
       "id": "bf7c14b8-eebc-4baa-a86f-4e3fde673047",
@@ -1297,9 +1296,4 @@
         "self": "https://api.up.com.au/api/v1/transactions/edb7baac-2b33-416a-80ab-764535b02b71"
       }
     }
-  ],
-  "links": {
-    "prev": null,
-    "next": "https://api.up.com.au/api/v1/transactions?page%5Bafter%5D=WyIyMDIwLTEyLTExVDAyOjI3OjE1LjMwMTQzNjAwMFoiLCJlZGI3YmFhYy0yYjMzLTQxNmEtODBhYi03NjQ1MzViMDJiNzEiXQ%3D%3D\u0026page%5Bsize%5D=20"
-  }
-}
+  ]

@@ -23,12 +23,14 @@ def test_find_unknown_merchants():
 
     unknowns, knowns = dict(), set()
     for item in raw_data:
-        description = f"{item['attributes']['description']} \"{item['attributes']['rawText']}\""
-        account = accounts.match(description)
+        raw_text = item['attributes']['rawText']
+        description = item['attributes']['description']
+        full_description = f"{item['attributes']['description']} \"{item['attributes']['rawText']}\""
+        account = accounts.match(description) or accounts.match(raw_text)
         if account is None:
-            unknowns.setdefault(description, list()).append(item)
+            unknowns.setdefault(full_description, list()).append(item)
         else:
-            knowns.add("%-30s -> %s" % (account, description))
+            knowns.add("%-30s -> %s" % (account, full_description))
 
     unknowns_list = sorted(unknowns.keys(), key=lambda key: len(unknowns[key]), reverse=True)
     for description in unknowns_list:
@@ -66,19 +68,21 @@ def test_generate_beans():
     """Convert the given file to beancount transactions, using the accounts yaml.
     """
     accounts = acc.AccountFile(YAML_TESTFILE)
-    transactions = json.load(open('test_data/up_transactions.json'))['data']
+    transactions = json.load(open(RAW_FILE))
 
     fh = open("generated.beancount", "w")
     sys.stdout.write("\n")
-    for trans in transactions:
+    for trans in reversed(transactions):
         date_str = trans['attributes']['createdAt'][:10]
-        description = f"{trans['attributes']['rawText']} [{trans['attributes']['description']}]"
-        value = trans['attributes']['amount']['value']
-        account = accounts.match(description) or "Expenses:TODO"
+        raw_text = trans['attributes']['rawText']
+        description = trans['attributes']['description']
+        value = - float(trans['attributes']['amount']['value'])
+        account = (accounts.match(description) or
+                   accounts.match(raw_text) or
+                   "Expenses:TODO")
 
-    # TODO: change the sign/side, use the currency field.
-        entry = f"{date_str} * \"{description}\"\n"
-        entry += "    Assets:Bank:Upbank\n"
+        entry = f'{date_str} * "{raw_text} [{description}]"\n'
+        entry += "    Assets:Bank:John-Upbank\n"
         entry += "    %-46s %10.2f AUD\n\n" % (account, float(value))
 
         sys.stdout.write(entry)
