@@ -45,9 +45,10 @@ class AccountFile:
 
     def match(self, description):
         """Return the account matching the description"""
-        for pattern in self.merchant_accounts.keys():
-            if re.match(pattern, description, re.IGNORECASE):
-                return self.merchant_accounts[pattern]
+        if description is not None:
+            for pattern in self.merchant_accounts.keys():
+                if re.match(pattern, description, re.IGNORECASE):
+                    return self.merchant_accounts[pattern]
         return None
 
 
