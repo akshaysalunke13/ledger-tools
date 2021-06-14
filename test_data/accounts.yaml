@@ -1,0 +1,323 @@
+Equity:
+  John:
+  Fiona:
+Assets:
+  Bank:
+    CompleteFreedom:
+    IncentiveSaver:
+      - Increase 50 Per Month
+  Bond:
+Income:
+  Gifts:
+    - St Matthews Manly
+    - Cash And/Or Chqs
+    - Special Reward (Income)
+  Salary:
+    Fiona:
+      - Generate Ministr (Wages|Generate Payment|Expenses Reimburse)
+      - Scripture Union 14793423258003
+    John:
+      - Capital Markets Salary
+      - Rtgs Inward Payment Sgb\d{13}Epam Systems (\(Austr|Austra)
+      - Epam Systems \(Au Salary
+      - Cover-More Payro 004694000000000000
+  Property:
+    Kirrawee:
+      - Cripps & Cripps.*
+    Eustace:
+      - .*Lily Wozniak
+  Interest:
+    - Credit Interest
+    - Bonus Interest
+Expenses:
+  Tithe:
+    Offertory:
+      - Night Church
+    Subscriptions:
+      - Compassion Australia
+      - Usd\d\d.\d\d Pattys Hope
+      - Pattys Hope
+      - Wateraid Australia
+      - Water Aid
+      - World Vision
+      - Bible Society Aust
+  Food:
+    Groceries:
+      - Aldi\s.*
+      - Best Manly Dry Clean
+      - Coles(\s.*)?
+      - Campos Coffee
+      - Chemist Outlet Dubbo
+      - Chemist Warehouse
+      - Country Growers Warr
+      - Ezymart\s.*
+      - Fika Swedish Kitchen
+      - Hfm Manly(\s.*)?
+      - King St Grocer(\s.*)?
+      - It Newtown
+      - Lloyds Iga
+      - Smp\*Manly Mini Marke
+      - Meat Angel Pty Ltd
+      - Pline Ph\s.*
+      - Prime Qua Meat Balgo
+      - Romeos Foodhall Iga
+      - Shiralee Organic Mea
+      - Spar Redfern
+      - The Fresh Basket(\s.*)?
+      - The Reject Shop\s+\d{4}
+      - Woolworths\s+\d{4}
+      - Ww Metro 1423 Manly
+    Eatout:
+      - 4 Pines.*
+      - Alh Venues\s+\d{4}
+      - Ashiana Indian Resta
+      - A Touch Of Europe.*
+      - Balgowlah Pies Pl
+      - Bavarian Bc\s.*
+      - Beach Bums Corporati
+      - Beaches Pi
+      - Bella Vista (Kiosk Pl|Manly)
+      - Benbry Burgers Manly
+      - Bettys Burgers Austr
+      - Bower Restaurant.*
+      - Bh Shelly Beach
+      - Burrito Bros Tamwort
+      - Cafe Graze
+      - Charles Thai
+      - Chat Thai Manly
+      - C C U E Trading Pty
+      - Devita Restaurant
+      - Fishmongers Manly
+      - Garfish Manly
+      - Gelato Messina
+      - Gelatissimo(\s.*)?
+      - Church Street Cafe
+      - Gobblegutz
+      - Golden Dragon Chines
+      - Guzman Y Gomez(\s.*)?
+      - Gusto On The Beach
+      - Harbord Diggers
+      - Heatherbrae's Pies
+      - Hemingways Manly Pty
+      - Hero Sushi .*
+      - Hungry Jacks .*
+      - Hunters Hill Operati
+      - Hong Pho( Newtown)?
+      - Hotel Steyne
+      - Horii Group Pty Limi
+      - The Ivanhoe Hotel
+      - Izumi Jap Rest
+      - Japanese Restaurant
+      - Khao Thai Balgowlah
+      - KFC
+      - Little Viet Kitchen
+      - Manly 16Ft Skiff Clu
+      - Manly Bakery
+      - Manly Fshmkt &Caf Pl
+      - Manly Interpolitanca
+      - Manly Ocean Foods
+      - Manly Thai Gourmet P
+      - Manly Wharf Hotel
+      - Manly Wine Bar Pty L
+      - Manly Wine
+      - Mare Sole Pty Ltd
+      - Mcdonalds(manlywharfi|\s.*)
+      - Moo Gourmet Burgers
+      - North Steyne Empor
+      - Nrth Steyne Snacksha
+      - Olivers Wyong Southb
+      - Papi Chulo
+      - Patchai Thai Restaur
+      - Patploy Thai Restaur
+      - Penny Lane Café
+      - Roast Office
+      - Salad Run
+      - Salty Rooster Mnly P Manly Nswau
+      - Ser-Bar Kebab & Pide
+      - Short Black Odi
+      - Scc Cafe
+      - South Curly Beach Ca
+      - Smp*Sushi Plus Manly
+      - Sq \*Fishbowl Manly
+      - Starbucks Manly
+      - Sulu 33 Pty Limited
+      - Sulunz Pty Limited
+      - Thai Khaen Khoon Pl
+      - The Boathouse\s(Shelly|Balmor)
+      - The Bower Restaurant
+      - The Crepe Myrtle Tea
+      - The Corso Bakehouse
+      - The Old Pie Shop Pty
+      - Wests Group Macarthu
+      - Westside Hotel
+      - Yok Thai Restaurant
+    Eatin:
+      - A Touch Of Europe Ba
+      - I Love Pizza Pty Ltd
+      - Ofe\*Ilovepizzabalgow
+      - Kfc Urban Manly
+      - Mcdonalds\s(?P<town>\w*)
+      - Menulog Pty Ltd
+    Alcohol:
+      - Bws Liquor\s+\d{4}
+      - Dan Murphys Online
+      - Dan Murphy's\s+\d{4}
+      - Hopstohome.Com.Au
+      - Ivanhoe
+      - Liquorland\s+\d{4}(Manly Au)?
+      - Manly Liquorstop
+      - Vintage Cellars
+    Coffee:
+      - Asher 7Fold Pty Ltd
+      - Bacino Bar
+      - Good Bean
+      - Hey You Pty Ltd
+      - Silo Espresso( Manly)?
+      - Silo West.*
+      - Sq \*Fika Manly
+      - ONEFIFTEEN PTY LT
+    Worklunch:
+      - Greenwood Chinese
+      - Mai Holdings Pty
+      - Nem CBD Viet Kitchen
+      - Steam M
+      - Greenwood Grocer
+      - Thai Carat
+      - Mirchi
+  Household:
+    Rent:
+      - 220001804
+      - Mee Hd
+      - Bank Cheque Wdl
+      - 3/8 Wood St Manly
+    Furnishings:
+      - Oz Design Furniture
+      - Bing Lee Rhodes
+      - Freedom Balgowlah Balgowlah Au
+      - Freedom Bankstown Bankstown Au
+    Consumables:
+      - Bed Bath N Table
+      - Big W\s+\d{4}
+      - Bunnings .*
+      - Day Night Chemist
+      - Humphreys Newsagency
+      - Ikea Tempe Tempe Au
+      - Kmart \d{4}
+      - Target \d{4}
+      - Smart Dollar Townsv
+      - Spotlight\s\d{3}
+      - Sunlite Hardware Pty.*
+    Utilities:
+      Internet:
+        - Iinet (Limited|Batch)
+        - Aussie Broadband Limited
+      Mobile:
+        - Amaysim Mobile Pty L
+      Electricity:
+        - Diamond Energy R.*
+        - Truenergy Pty Lt 0616225(10008|82218)
+      Gas:
+        - Energyaustralia\s\d*
+  Property:
+    Eustace:
+      Water:
+         - Sydney Water 116600027922
+      Strata:
+        - 3032756064839415 Deft Payments
+    Kirrawee:
+      Strata:
+        - 30062606651932700391Deft Payments
+      Water:
+        - Sydney Water 118000038929
+  Transport:
+    YBD997:
+      - 509 Snsw Wynyard
+      - "Caltex\\s(?P<town>\\w*)\\s(?P<city>[\\w\\d]*)"
+      - Bp\s.*\s\d{4}
+      - Gio
+      - Harbord Tyre & Servi Brookvale Au
+      - Macquarie Ctr Car Pk
+      - Nbc-Whistler St Park
+      - Nrma Web
+      - "Powerhouse Auto Serv(ic \North Manly02 Au)?"
+      - Rms 800\d{7}
+      - Rms Etoll Ph 131865
+      - Sealink Travel Group
+      - Wilson Parking(\sSydob|\sS105)?
+      - United Dee Why
+    QIL86:
+      - United Singleton
+      - "7-Eleven \\d{4}"
+      - Rms 8001024890
+    Public:
+      - "Manly Fast Ferr(y|ies)(\\s\\\\Pyrmont Au)?"
+      - "My Fast Ferry( Pyrmont Nswau)?"
+      - Manly Fast Ferry Pty
+      - Transport For Nsw(-Op)?
+      - Transportfornsw Opal
+      - Captain Cook\*292Mn2
+    Pushbike:
+      - BROOKVALE BIKE FACT2,BROOKVALE
+    Postage:
+      - "Post .*"
+      - Australia Post
+    Taxi:
+      - Uber\s.*
+  Health:
+    John:
+      Gym:
+        - Dbs\*Anytime Fitness
+        - Gyrotonics
+      Optometrist:
+        - Ian Donald Optometr(i|\\Manly Au)
+      Dental:
+        - Geoffrey John Thomas
+    Fiona:
+      Insurance:
+        - Ahm 23668255
+    Medication:
+      - Redfern Dds
+      - J And A Maloufs Manl
+    Haircut:
+      - Justcutswarringahmal
+      - Just Cuts Warriewod
+  Personal:
+    John:
+      - 5353162009170325 Commonwealth Cards
+      - Bush Art Australia P
+      - Bonds( Warringah Mall)?
+      - Coopers Direct
+      - Chic Leather
+      - Manly Surfboards
+      - Martin Place Physio.*
+      - Rip Curl Manly
+      - Hey You
+      - Mammoth Media P/L
+    Fiona:
+      - Joint Account Transfer
+      - Best & Less
+      - H&M Sydney Au.*
+  Lifestyle:
+    Technology:
+      - Apple Itunes Store
+      - "Officeworks .*"
+      - Spotify P.*
+      - Netflix(\s|\.)Com
+    Activities:
+      - Dendy Cinemas Opera\s*
+      - Dive Centre Manly Pt
+      - Manly Abc Swimming C
+      - Manly Cycles Pty Ltd
+      - Paddy Pallin
+      - Rebel (Broadway Broadway Au|Brookvale|Mid City)
+      - Weteachme.Com
+  Cash:
+    - St.George Bank Manly 2 Au
+    - St.George Bank Sydney Nsw 2 Au
+    - Cash Withdrawal
+    - Westpac Manly 2 Au
+  Financial:
+    - Bank Cheque Fee
+    - Foreign Currency Conversn Fee
+    - Service Nsw Wynyard Sydney Nswau
+    - Account Service Fee

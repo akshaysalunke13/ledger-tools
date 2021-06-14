@@ -1,10 +1,10 @@
 import unittest
 import unittest.mock
 
-import accounts as acc
+from . import accounts as acc
 
 
-YAML_TESTFILE = '../john-fiona/accounts.yaml'
+YAML_TESTFILE = 'test_data/accounts.yaml'
 
 
 class TestAccountMerchants(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestAccountMerchants(unittest.TestCase):
         accounts = acc.AccountFile(YAML_TESTFILE)
         print(accounts.match('Aldi 104'))
         self.assertEqual("Expenses:Food:Groceries", accounts.match('Aldi 104'))
-        self.assertIsNone(accounts.match('ALDI 104'))   # ensure case sensitive
+        self.assertEqual("Expenses:Food:Groceries", accounts.match('ALDI 104'))   # ensure case sensitive
         self.assertEqual("Expenses:Food:Groceries", accounts.match('Coles 929023912 asdf Nsa'))
         self.assertEqual("Expenses:Household:Consumables", accounts.match('Bunnings 2019'))
 

@@ -1,16 +1,22 @@
 import datetime
 import json
+import os
 import pprint
 import unittest.mock
 import sys
 
-import accounts as acc
-import upbank
+from . import accounts as acc
+from . import upbank
 
-YEAR, MONTH = 2021, 1
+YEAR, MONTH = 2021, 3
+ACCOUNT = 'fiona'
 
-RAW_FILE = '../john-fiona/raw/upbank/%i-%02.i-trans.json' % (YEAR, MONTH)
+RAW_FILE = '../john-fiona/raw/upbank/%i-%02.i-trans-fiona.json' % (YEAR, MONTH)
 YAML_TESTFILE = '../john-fiona/accounts.yaml'
+
+if (UPBANK_TOKEN := os.getenv('UPBANK_TOKEN')) is None:
+    print('Please put a valid upbank token into an environment variable UPBANK_TOKEN')
+    exit(1)
 
 
 def test_download_transactions():
@@ -19,10 +25,8 @@ def test_download_transactions():
       * connect to the Upbank API.
       * save the period of transactions to file.
     """
-    local_tz = datetime.datetime.utcnow().astimezone().tzinfo
-    since = datetime.datetime(year=YEAR, month=MONTH, day=1, tzinfo=local_tz)
-    until = datetime.datetime(year=YEAR, month=MONTH+1, day=1, tzinfo=local_tz)
-    transactions = upbank.transactions(since, until, upbank.SETTLED)
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    transactions = client.get_month(YEAR, MONTH)
     with open(RAW_FILE, "w") as fh:
         json.dump(transactions, fh, indent=3)
     print()
@@ -93,35 +97,44 @@ def test_generate_beans():
     fh.close()
 
 
+def test_transactions():
+    local_tz = datetime.datetime.utcnow().astimezone().tzinfo
+    since = datetime.datetime(year=2020, month=11, day=1, tzinfo=local_tz)
+    until = datetime.datetime(year=2020, month=11, day=3, tzinfo=local_tz)
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    data = client.transactions(since, until, upbank.SETTLED)
+    pprint.pp(data)
+    assert len(data) == 9
+
+
 def test_ping():
     """Verify the token still works."""
-    response = upbank.ping()
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    response = client.ping()
     pprint.pp(response.text)
     assert response.status_code == 200
 
 
 def test_accounts():
     """Fetch a list of accounts."""
-    data = upbank.accounts()
-    pprint.pp(data)
-
-
-def test_transactions():
-    data = upbank.transactions()
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    data = client.accounts()
     pprint.pp(data)
 
 
 def test_categories():
     """Show me a list of categories."""
-    data = upbank.categories()
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    data = client.categories()
     pprint.pp(data)
 
 
-@unittest.mock.patch.object(upbank, 'get')
+@unittest.mock.patch.object(upbank.UpbankClient, 'get')
 def test_categories_processing(mock_get):
     """Show me a list of categories."""
     mock_get.return_value = json.load(open('test_data/up_categories.json'))
-    data = upbank.categories()
+    client = upbank.UpbankClient(UPBANK_TOKEN)
+    data = client.categories()
     categories = {c['id']:c for c in data}
     top_level = [c for c in data if c['relationships']['parent']['data'] is None]
     for category in top_level:

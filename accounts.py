@@ -3,7 +3,7 @@ from yaml import SafeLoader
 import re
 
 # YAML file which maps descriptions into accounts.
-ACCOUNTS_YAML = '../john-fiona/accounts.yaml'
+ACCOUNTS_YAML = './test_data/accounts.yaml'
 
 
 class AccountFile:
