@@ -35,8 +35,6 @@ class UpbankClient:
     def get_month(self, year: int, month: int) -> []:
         """Get settled transactions for the given month.
 
-        # TODO: doesn't handle the 12th month of the year.
-
         year: int: year to download eg: 2021
         month: int: month to download eg: 3
 
@@ -45,6 +43,9 @@ class UpbankClient:
         """
         local_tz = datetime.datetime.utcnow().astimezone().tzinfo
         since = datetime.datetime(year=year, month=month, day=1, tzinfo=local_tz)
+        if month == 12:
+            month = 0
+            year += 1
         until = datetime.datetime(year=year, month=month + 1, day=1, tzinfo=local_tz)
         return self.transactions(since, until, SETTLED)
 

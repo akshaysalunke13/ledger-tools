@@ -2,7 +2,7 @@ import csv
 import datetime
 import re
 
-import accounts
+from . import accounts
 
 
 class StGeorgeFile:
