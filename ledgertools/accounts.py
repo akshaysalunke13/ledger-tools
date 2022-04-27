@@ -51,8 +51,8 @@ class AccountFile:
                     return self.merchant_accounts[pattern]
         return None
 
-
-account_file = AccountFile(ACCOUNTS_YAML)
+#FIXME
+# account_file = AccountFile(ACCOUNTS_YAML)
 
 
 def is_known(description: str) -> str:

@@ -2,13 +2,20 @@
 name = "ledgertools"
 version = "0.1.0"
 description = "Ledger Tools"
-authors = ["John Mee <git.commit@johnmee.com>"]
+authors = ["John Mee"]
+
+[tool.poetry.scripts]
+upbank = "ledgertools.upbank:cli"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pytest = "latest"
+click = "latest"
+python = "^3.10"
 PyYAML = "latest"
 requests = "latest"
+
+[tool.poetry.dev-dependencies]
+pytest = "latest"
+black = "latest"
 
 [build-system]
 requires = ["poetry>=0.12"]

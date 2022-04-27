@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """Up Bank API.
 
 Use the Up Bank API to retrieve transactions.
@@ -6,10 +8,13 @@ That is really all I am interested in because I use my own pattern matching,
 against the transaction description, to sort them into accounts (aka categories).
 """
 import datetime
+import click
+import json
+import os
 import requests
 
 
-URL = 'https://api.up.com.au/api/v1'
+URL = "https://api.up.com.au/api/v1"
 
 # Maximum number of transactions upbank return per 'page'.
 PAGE_SIZE = 100
@@ -21,6 +26,7 @@ SETTLED = "SETTLED"
 
 class LocalTZ(datetime.tzinfo):
     """Your time zone with an arbitrary, constant offset."""
+
     def utcoffset(self, dt):
         return datetime.timedelta(hours=+11, minutes=0)
 
@@ -49,10 +55,9 @@ class UpbankClient:
         until = datetime.datetime(year=year, month=month + 1, day=1, tzinfo=local_tz)
         return self.transactions(since, until, SETTLED)
 
-    def transactions(self,
-                     since: datetime.datetime,
-                     until: datetime.date = None,
-                     status: str = None) -> list:
+    def transactions(
+        self, since: datetime.datetime, until: datetime.date = None, status: str = None
+    ) -> list:
         """Fetch a list of transactions.
 
         Args:
@@ -66,12 +71,12 @@ class UpbankClient:
         params = dict()
 
         # Upbank only return PAGE_SIZE transactions per request, so we need to
-        params.update({'page[size]': PAGE_SIZE})
-        params.update({'filter[since]': since})
+        params.update({"page[size]": PAGE_SIZE})
+        params.update({"filter[since]": since})
         if until is not None:
-            params.update({'filter[until]': until})
+            params.update({"filter[until]": until})
         if status is not None:
-            params.update({'filter[status]': status})
+            params.update({"filter[status]": status})
         response = self.get("/transactions", params=params)
         return response
 
@@ -90,9 +95,9 @@ class UpbankClient:
         while uri is not None:
             response = requests.get(uri, headers=self._headers(), params=params)
             data = response.json()
-            result.extend(data['data'])
+            result.extend(data["data"])
             try:
-                uri = data['links']['next']
+                uri = data["links"]["next"]
             except KeyError:
                 break
         return result
@@ -114,4 +119,53 @@ class UpbankClient:
         return self.get("/categories")
 
     def _headers(self):
-        return {'Authorization': f"Bearer {self.token}"}
+        return {"Authorization": f"Bearer {self.token}"}
+
+
+if (UPBANK_TOKEN := os.getenv('JOHN_UPBANK_TOKEN')) is None:
+    print('Please put a valid upbank token into an environment variable JOHN_UPBANK_TOKEN')
+    exit(1)
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+def ping():
+    """Send a ping to Upbank, to verify your token and their API status."""
+    client = UpbankClient(UPBANK_TOKEN)
+    response = client.ping()
+    click.echo("Ping!")
+    click.echo(response.text)
+
+
+@cli.command()
+def balance():
+    """Fetch the current balance of the account."""
+    client = UpbankClient(UPBANK_TOKEN)
+    response = client.accounts()
+    print(response)
+    click.echo("${0:.2f}".format(float(response[0]['attributes']['balance']['value'])))
+
+
+@cli.command()
+@click.argument("year", type=click.types.INT)
+@click.argument("month", type=click.types.INT)
+def month(year, month):
+    """Download a sequence of transactions.
+    """
+    client = UpbankClient(UPBANK_TOKEN)
+    transactions = client.get_month(year, month)
+    click.echo(json.dumps(transactions, indent=3))
+
+
+
+# TODO!
+# check merchants
+# generate beancount
+
+
+if __name__ == "__main__":
+    cli()

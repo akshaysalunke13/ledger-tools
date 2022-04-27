@@ -1,3 +1,5 @@
+# TODO: tidy up for publication.
+#
 import sys
 import unittest
 

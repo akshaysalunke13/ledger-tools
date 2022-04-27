@@ -1,3 +1,6 @@
+##
+## TODO: remove john/fiona stuff. prep for publish.
+##
 import datetime
 import json
 import os
