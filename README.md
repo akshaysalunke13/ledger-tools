@@ -8,5 +8,3 @@ Import tools for using the accounting package [Beancount](https://github.com/bea
   * Generate ledger entries
 
 ## Usage
-
-TODO
