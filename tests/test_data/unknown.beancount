@@ -1,0 +1,39 @@
+;2021-07-01 * "FIONA MEE [FIONA MEE]"                                             #fiona
+;    Assets:Bank:Fiona-Upbank
+;    Assets:Bank:Joint-CompleteFreedom               -1000.00 AUD
+
+2021-07-02 * "WWW.CROSSLINKS.ORG,LONDON  SE4 [WWW.CROSSLINKS.ORG,LONDON SE4]"    #fiona
+    Assets:Bank:Fiona-Upbank
+    Expenses:Tithe:Subscriptions                        64.67 AUD
+
+2021-07-02 * "OPEN DOORS AUST IN,CASTLE HILL [Open Doors]"                       #fiona
+    Assets:Bank:Fiona-Upbank
+    Expenses:Tithe:Subscriptions                       150.00 AUD
+
+2021-07-03 * "CLARK RUBBER BROOKV1,BROOKVALE [Clark Rubber]"                     #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:homeware-and-appliances]       5.00 AUD
+
+2021-07-03 * "ALDI STORES - BALGOW,BALGOWLAH [ALDI]"                             #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:groceries]                    39.43 AUD
+
+2021-07-03 * "WOOLWORTHS 15731, BALGOWLAH [Woolworths]"                          #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:groceries]                    29.08 AUD
+
+2021-07-03 * "PAYPAL *BIGWPHOTOSO,4029357733 [BIG W Photos]"                     #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:homeware-and-appliances]      28.35 AUD
+
+2021-07-05 * "Cotton On, Sydney [Cotton On]"                                     #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [personal:clothing-and-accessories]      17.00 AUD
+
+2021-07-10 * "ALDI STORES - BALGOW,BALGOWLAH [ALDI]"                             #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:groceries]                    53.82 AUD
+
+2021-07-10 * "WOOLWORTHS 15731, BALGOWLAH [Woolworths]"                          #fiona
+    Assets:Bank:Fiona-Upbank
+    ACCOUNT_UNKNOWN [home:groceries]                     7.75 AUD

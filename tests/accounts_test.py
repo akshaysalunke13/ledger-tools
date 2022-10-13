@@ -1,10 +1,10 @@
 import unittest
 import unittest.mock
 
-from . import accounts as acc
+from ledgertools.ledgertools import accounts as acc
 
 
-YAML_TESTFILE = 'test_data/accounts.yaml'
+YAML_TESTFILE = 'tests/test_data/accounts.yaml'
 
 
 class TestAccountMerchants(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestAccountMerchants(unittest.TestCase):
 class TestModuleRoutines(unittest.TestCase):
     """Test top level routines."""
 
-    pubs = {'Pubs': ['Ivanhoe','4.*']}
+    pubs = {'Pubs': ['Ivanhoe', '4.*']}
 
     def test_unknowns(self):
         """Test the unknowns routine.  Should find unknowns."""

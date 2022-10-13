@@ -14,8 +14,6 @@ import os
 import pprint
 import requests
 
-from . import accounts
-
 
 URL = "https://api.up.com.au/api/v1"
 
@@ -125,7 +123,7 @@ class UpbankClient:
         return {"Authorization": f"Bearer {self.token}"}
 
 
-if (UPBANK_TOKEN := os.getenv('JOHN_UPBANK_TOKEN')) is None:
+if (UPBANK_TOKEN := os.getenv('FIONA_UPBANK_TOKEN')) is None:
     print('Please put a valid upbank token into an environment variable JOHN_UPBANK_TOKEN')
     exit(1)
 
@@ -191,8 +189,8 @@ def brewfiona(rawfile, balance):
         value = - float(trans['attributes']['amount']['value'])
         try:
             category = ':'.join([
-                trans['relationships']['category']['data']['id'],
                 trans['relationships']['parentCategory']['data']['id'],
+                trans['relationships']['category']['data']['id'],
             ])
         except TypeError:
             category = ''
