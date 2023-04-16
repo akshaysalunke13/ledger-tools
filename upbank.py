@@ -2,6 +2,7 @@ import click
 import json
 import os
 import pprint
+import datetime
 from zoneinfo import ZoneInfo
 from ledgertools.upclient import UpbankClient, SETTLED
 
@@ -97,20 +98,16 @@ def gettxns(fromdate, todate):
 
     Args:
         fromdate (datetime): from date in dd/mm/yyyy
-        todate (datetime): to dat in dd/mm/yyyy
+        todate (datetime): to date in dd/mm/yyyy
     """
     local_tz = ZoneInfo("Australia/Melbourne")
     # local_tz = ZoneInfo("UTC")
     fromdate = fromdate.replace(tzinfo=local_tz)
-    todate = todate.replace(tzinfo=local_tz)
-    
+    # make end date to 11:59:59 to make sure to get all txns until end of the day
+    todate = todate.replace(tzinfo=local_tz) + datetime.timedelta(days=1) - datetime.timedelta(microseconds=1)
     client = UpbankClient(UPBANK_TOKEN)
-    txns = client.transactions(fromdate, todate)
-    # print(txns[0])
-    # print('\n')
-    # print(txns[-1])
-    for t in txns:
-        print(t)
+    txns = client.transactions(fromdate, todate, SETTLED)
+    click.echo(json.dumps(txns))
 
 if __name__ == "__main__":
     cli()
