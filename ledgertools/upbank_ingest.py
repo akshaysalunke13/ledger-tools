@@ -10,6 +10,8 @@ from beancount.ingest import importer
 
 # Upbank only operates in AUD, afaik.
 CURRENCY = "AUD"
+UP_ACCOUNT_NAME = "Assets:Bank:Upbank"
+TAG = "#fiona"
 
 
 class UpbankImporter(importer.ImporterProtocol):
@@ -20,7 +22,7 @@ class UpbankImporter(importer.ImporterProtocol):
     # you prefer to create your imported transactions with a different flag.
     FLAG = beancount.core.flags.FLAG_OKAY
 
-    def __init__(self, account_name="Assets:Bank:Upbank", tags="#fiona"):
+    def __init__(self, account_name=UP_ACCOUNT_NAME, tags=TAG):
         """
 
         Args:
