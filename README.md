@@ -9,11 +9,9 @@ Import tools for using the accounting package [Beancount](https://github.com/bea
 
 ## Usages
 
-Import ledgertools into a poetry env and shell into it...
-
-TODO: In the environment vars I have set JOHN_UPBANK_TOKEN and FIONA_UPBANK_TOKEN to 
-the `up:yeah:...` api tokens received from upbank; I guess from their website. I
-need to work out how to generalize that.
+- Create/activate venv
+- add UP API token to env using `export UP_TOKEN=${token}`
+- Run like `python upbank [OPTIONS] COMMAND [ARGS]`
 
 ### UpBank  
 
@@ -30,6 +28,7 @@ Commands:
   categories  Get a list of transaction categories.
   month       Download a sequence of transactions.
   ping        Send a ping to Upbank, to verify your token and their API...
+  gettxns     Download all transactions for date range
 ```
 
 ### Resolving unknown transactions  
